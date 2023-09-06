@@ -1,16 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:storeapp/models/product_model.dart';
+import 'package:storeapp/screens/product_screen.dart';
 import 'package:storeapp/screens/update_product_page.dart';
 
-class CustomCard extends StatelessWidget {
+class CustomCard extends StatefulWidget {
   CustomCard({super.key, required this.productModel});
+
   ProductModel productModel;
+
+  @override
+  State<CustomCard> createState() => _CustomCardState();
+}
+
+class _CustomCardState extends State<CustomCard> {
+  bool isFav = true;
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onDoubleTap: () {
-        Navigator.pushNamed(context, UpdateProductPage.id,
-            arguments: productModel);
+      // onDoubleTap: () {
+      //   Navigator.pushNamed(
+      //     context,
+      //     UpdateProductPage.id,
+      //     arguments: widget.productModel,
+      //   );
+      // },
+      onTap: () {
+        Navigator.pushNamed(
+          context,
+          ProductScreen.id,
+          arguments: widget.productModel,
+        );
       },
       child: Stack(
         clipBehavior: Clip.none,
@@ -25,13 +45,13 @@ class CustomCard extends StatelessWidget {
               elevation: 4,
               child: Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      productModel.title,
+                      widget.productModel.title,
                       style: const TextStyle(
                         fontSize: 16.0,
                         color: Colors.grey,
@@ -39,22 +59,31 @@ class CustomCard extends StatelessWidget {
                       ),
                       overflow: TextOverflow.ellipsis,
                     ),
-                    const SizedBox(
-                      height: 4.0,
-                    ),
+
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "\$ ${productModel.price} ",
+                          "\$ ${widget.productModel.price} ",
                           style: const TextStyle(
                             fontSize: 16.0,
                           ),
                         ),
-                        const Icon(
-                          Icons.favorite,
-                          color: Colors.red,
-                        )
+                        IconButton(
+                          onPressed: () {
+                            isFav =! isFav;
+                            setState(() {
+                            });
+                          },
+                          icon: isFav ? Icon(
+                            Icons.favorite_border,
+                            color: Colors.grey,
+                          ) :
+                          Icon(
+                            Icons.favorite,
+                            color: Colors.red,
+                          ),
+                        ),
                       ],
                     ),
                   ],
@@ -64,11 +93,11 @@ class CustomCard extends StatelessWidget {
           ),
           Positioned(
             right: 15.0,
-            bottom: 65.0,
+            bottom: 85.0,
             child: Image.network(
-              productModel.image,
-              height: 100,
-              width: 70,
+              widget.productModel.image,
+              height: 80,
+               width: 70,
             ),
           ),
         ],

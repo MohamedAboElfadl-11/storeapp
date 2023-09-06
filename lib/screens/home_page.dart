@@ -14,78 +14,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  var currentIndex = 0;
-
-  List<IconData> listOfIcons = [
-    Icons.home_rounded,
-    Icons.favorite_rounded,
-    Icons.settings_rounded,
-    Icons.person_rounded,
-  ];
-
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Scaffold(
-      bottomNavigationBar: Container(
-        margin: EdgeInsets.only(bottom: 4, right: 8, left: 8),
-        height: size.width * .155,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(.15),
-              blurRadius: 30,
-              offset: Offset(0, 10),
-            ),
-          ],
-          borderRadius: BorderRadius.circular(25),
-        ),
-        child: ListView.builder(
-          itemCount: 4,
-          scrollDirection: Axis.horizontal,
-          padding: EdgeInsets.symmetric(horizontal: size.width * .024),
-          itemBuilder: (context, index) => InkWell(
-            onTap: () {
-              setState(
-                () {
-                  currentIndex = index;
-                },
-              );
-            },
-            splashColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                AnimatedContainer(
-                  duration: const Duration(milliseconds: 1500),
-                  curve: Curves.fastLinearToSlowEaseIn,
-                  margin: EdgeInsets.only(
-                    bottom: index == currentIndex ? 0 : size.width * .029,
-                    right: size.width * .0422,
-                    left: size.width * .0422,
-                  ),
-                  width: size.width * .128,
-                  height: index == currentIndex ? size.width * .014 : 0,
-                  decoration: const BoxDecoration(
-                    color: Colors.black,
-                    borderRadius: BorderRadius.vertical(
-                      bottom: Radius.circular(10),
-                    ),
-                  ),
-                ),
-                Icon(
-                  listOfIcons[index],
-                  size: size.width * .076,
-                  color: index == currentIndex ? Colors.black : Colors.black38,
-                ),
-                SizedBox(height: size.width * .03),
-              ],
-            ),
-          ),
-        ),
-      ),
       backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 0,
@@ -100,6 +31,14 @@ class _HomePageState extends State<HomePage> {
           color: Colors.black,
         ),
         centerTitle: true,
+        leading: IconButton(
+          onPressed: (){},
+          icon: const Icon(
+            Icons.favorite,
+            color: Colors.red,
+            size: 28,
+          ),
+        ),
         actions: [
           IconButton(
             onPressed: () {},
@@ -123,7 +62,7 @@ class _HomePageState extends State<HomePage> {
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   crossAxisSpacing: 10,
-                  mainAxisExtent: 170,
+                  mainAxisExtent: 180,
                 ),
                 itemBuilder: (context, index) => CustomCard(
                   productModel: products[index],
@@ -131,9 +70,10 @@ class _HomePageState extends State<HomePage> {
               );
             } else {
               return const Center(
-                  child: CircularProgressIndicator(
-                color: Colors.black,
-              ));
+                child: CircularProgressIndicator(
+                  color: Colors.black,
+                ),
+              );
             }
           },
         ),
